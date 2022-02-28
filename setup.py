@@ -15,8 +15,7 @@ setup(
         'simplejson',
     ],
     classifiers=[
-        'Development OpenOrderStatus :: 3',
-        'Intended Audience :: Developers',
+        'Operating System :: OS Independent',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
