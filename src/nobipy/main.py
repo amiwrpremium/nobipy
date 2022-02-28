@@ -7,6 +7,12 @@ from .exceptions import *
 from .const import *
 
 
+__all__ = [
+    'Nobitex',
+    'get_token',
+]
+
+
 def get_token(username: str, password: str) -> t.Dict:
     """
     Get a token from the Nobitex API.
@@ -237,24 +243,28 @@ class Nobitex:
         :rtype: None
         """
 
+        additional.update(locals())
+
         if 200 <= response.status_code < 300:
             try:
                 r_json: t.Dict = response.json()
             except Exception as e:
-                raise JsonDecodingExceptions(func_name, e, locals())
+                raise JsonDecodingExceptions(func_name, e, additional)
 
             if "status" in r_json.keys():
                 pass
             else:
-                raise InvalidResponseExceptions(func_name, '"status" key not found', locals())
+                raise InvalidResponseExceptions(func_name, '"status" key not found', additional)
 
             if r_json['status'].lower() == 'ok':
                 pass
             else:
-                raise InvalidResponseExceptions(func_name, f'response status is not ok | {r_json}', locals())
+                raise InvalidResponseExceptions(func_name, f'response status is not ok | {r_json}', additional)
 
         else:
-            raise StatusCodeExceptions(func_name, response.status_code, f'invalid status code | {response.url}')
+            raise StatusCodeExceptions(
+                func_name, response.status_code, f'invalid status code | {response.url}', additional
+            )
 
     def _process_response(
             self,
@@ -280,7 +290,7 @@ class Nobitex:
         :rtype: dict
         """
 
-        self._raise_for_exception(response, func_name)
+        self._raise_for_exception(response, func_name, additional)
         return response.json()
 
     def orderbook(self, symbol: str) -> t.Dict[str, t.List]:
@@ -819,3 +829,9 @@ class Nobitex:
         )
 
         return self._process_response(response, func_name='deposits_list', additional=__locals)
+
+    def __str__(self):
+        return f'{self.__class__.__name__} | (token={self.__token})'
+
+    def __repr__(self):
+        return self.__str__()
