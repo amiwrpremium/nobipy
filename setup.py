@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='nobipy',
     packages=['nobipy'],
-    version='0.0.2',
+    version='0.0.1',
     license='MIT',
     description='Nobitex cryptocurrency exchange python sdk',
     author='amiwrpremium',
@@ -15,7 +15,7 @@ setup(
         'simplejson',
     ],
     classifiers=[
-        'Development OpenOrderStatus :: 3 - Alpha',
+        'Development OpenOrderStatus :: 3',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
